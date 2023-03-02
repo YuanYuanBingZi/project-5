@@ -10,20 +10,31 @@ Presently, there's only a placeholder directory for your Flask app, and a `docke
 
 Recommended: Review [MongoDB README](MONGODB.md) and[Docker Compose README](COMPOSE.md).
 
+
+
 ## Tasks
 
-1. Add two buttons `Submit` and `Display` in the ACP calculator page.
+* Application Outline
+  * This app will generate a website that calculate the opening time and closing time for ACP brevets based on the checkpoint(you typed as input) kilometers and the time you choose. When you press the submit botton, we store the data you press into our MongoDB database; when you press the display button, we will fetch the data from the database, and display the data you reserved for you.
 
-	- Upon clicking the `Submit` button, the control times should be inserted into a MongoDB database, and the form should be cleared (reset) **without** refreshing the page.
+* Algorithm(The way we calcute the open and the close time)
+	* Basically, we will use Maximum and Minimum Speed to Calculate Open Time and Close Time respectively.
+	* In different kilometer scales, we have different standard of speeds. (For example, in 0-200, the Max Speed is 34 km/hr; in 200-400, the Max Speed is 32 km/hr; in 400-600, the Max Speed is 30 km/hr...)
+	* There are some special cases:
+	   * The closing time for 0 km is always 1 hour, and if the km is before 60km, we will use a different rule to take care of late stater.
+	   * We might have some adjustments on closing time on special kms. (For example, if your end point is 200km, the closing time is not 13h 20 min, is 13h 30min) 
 
-	- Upon clicking the `Display` button, the entries from the database should be filled into the existing page.
+*  How To Use Start(Docker instructions, Web app instructions)
+	* For Docker Compose Instruction:
+	  * step1: build and run our docker compose file by "docker compose up" 
+	  * step2: open the browser and go into the localhost then interact with the browser
+	
+	* Web app instruction
+	  * First, you need to choose the end km or the length of the race based on the options
+	  * Second, you need to choose the date you want to query
+	  * Third, you can type the checkpoint km one by one and press return, you will get the exact time for the open time and close time.
+	  * Fourth, you can press the submit button to submit all the data to the database. After submission, when you press display buttion, you will get all the data back.
 
-	- Handle error cases appropriately. For example, Submit should return an error if no control times are input. One can imagine many such cases: you'll come up with as many cases as possible.
-
-2. An automated `nose` test suite with at least 2 test cases: at least one for for DB insertion and one for retrieval.
-
-3. Update README.md with brevet control time calculation rules (you were supposed to do this for Project 4), and additional information regarding this project.
-	- This project will be peer-reviewed, so be thorough.
 
 ## Grading Rubric
 
